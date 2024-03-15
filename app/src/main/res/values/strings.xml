@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TourGuideMegaphone</string>
+    <string name="txtHintLogInEmail">Log-in e-mail address</string>
+    <string name="txtHintPassword">Your password</string>
+    <string name="txtBtnSignIn">Sign in</string>
+    <string name="txtSignUpInstead">Don\'t have an account? Sign up instead.</string>
 </resources>
