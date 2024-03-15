@@ -4,4 +4,8 @@
     <string name="txtHintPassword">Your password</string>
     <string name="txtBtnSignIn">Sign in</string>
     <string name="txtSignUpInstead">Don\'t have an account? Sign up instead.</string>
+    <string name="txtHintLastName">Your last name</string>
+    <string name="txtHintFirstName">Your first name</string>
+    <string name="txtHintYourEmail">Your email address</string>
+    <string name="btnTxtSignUp">Sign Up</string>
 </resources>
