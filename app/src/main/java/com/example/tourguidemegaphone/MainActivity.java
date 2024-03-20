@@ -25,6 +25,16 @@ public class MainActivity extends AppCompatActivity {
         TextView txtViewSignUp = findViewById(R.id.txtSignUpInstead);
         EditText editTxtEmail = findViewById(R.id.editTextEmailAddress);
         SpannableString spannableSignUp = new SpannableString(txtViewSignUp.getText());
+        Button btnSignIn = findViewById(R.id.btnSignIn);
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent
+                        (MainActivity.this,CurrencyConverterActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         ClickableSpan clickableSpan = new ClickableSpan() {

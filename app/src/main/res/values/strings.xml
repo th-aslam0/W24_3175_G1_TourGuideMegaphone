@@ -8,4 +8,5 @@
     <string name="txtHintFirstName">Your first name</string>
     <string name="txtHintYourEmail">Your email address</string>
     <string name="btnTxtSignUp">Sign Up</string>
+    <string name="btnConvert">Convert</string>
 </resources>
