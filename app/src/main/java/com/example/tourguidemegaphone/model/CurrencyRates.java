@@ -6,22 +6,22 @@ public class CurrencyRates {
     private String result;
     private String provider;
     private String documentation;
-    private String termsOfUse;
-    private long timeLastUpdateUnix;
-    private String timeLastUpdateUtc;
-    private long timeNextUpdateUnix;
-    private String timeNextUpdateUtc;
-    private long timeEolUnix;
+    private String terms_of_use;
+    private long time_last_update_unix;
+    private String time_last_update_utc;
+    private long time_next_update_unix;
+    private String time_next_update_utc;
+    private long time_eol_unix;
 
-    public long getTimeEolUnix() {
-        return timeEolUnix;
+    public long getTime_eol_unix() {
+        return time_eol_unix;
     }
 
-    public void setTimeEolUnix(long timeEolUnix) {
-        this.timeEolUnix = timeEolUnix;
+    public void setTime_eol_unix(long time_eol_unix) {
+        this.time_eol_unix = time_eol_unix;
     }
 
-    private String baseCode;
+    private String base_code;
     private Map<String, Double> rates;
 
     public String getResult() {
@@ -48,52 +48,52 @@ public class CurrencyRates {
         this.documentation = documentation;
     }
 
-    public String getTermsOfUse() {
-        return termsOfUse;
+    public String getTerms_of_use() {
+        return terms_of_use;
     }
 
-    public void setTermsOfUse(String termsOfUse) {
-        this.termsOfUse = termsOfUse;
+    public void setTerms_of_use(String terms_of_use) {
+        this.terms_of_use = terms_of_use;
     }
 
-    public long getTimeLastUpdateUnix() {
-        return timeLastUpdateUnix;
+    public long getTime_last_update_unix() {
+        return time_last_update_unix;
     }
 
-    public void setTimeLastUpdateUnix(long timeLastUpdateUnix) {
-        this.timeLastUpdateUnix = timeLastUpdateUnix;
+    public void setTime_last_update_unix(long time_last_update_unix) {
+        this.time_last_update_unix = time_last_update_unix;
     }
 
-    public String getTimeLastUpdateUtc() {
-        return timeLastUpdateUtc;
+    public String getTime_last_update_utc() {
+        return time_last_update_utc;
     }
 
-    public void setTimeLastUpdateUtc(String timeLastUpdateUtc) {
-        this.timeLastUpdateUtc = timeLastUpdateUtc;
+    public void setTime_last_update_utc(String time_last_update_utc) {
+        this.time_last_update_utc = time_last_update_utc;
     }
 
-    public long getTimeNextUpdateUnix() {
-        return timeNextUpdateUnix;
+    public long getTime_next_update_unix() {
+        return time_next_update_unix;
     }
 
-    public void setTimeNextUpdateUnix(long timeNextUpdateUnix) {
-        this.timeNextUpdateUnix = timeNextUpdateUnix;
+    public void setTime_next_update_unix(long time_next_update_unix) {
+        this.time_next_update_unix = time_next_update_unix;
     }
 
-    public String getTimeNextUpdateUtc() {
-        return timeNextUpdateUtc;
+    public String getTime_next_update_utc() {
+        return time_next_update_utc;
     }
 
-    public void setTimeNextUpdateUtc(String timeNextUpdateUtc) {
-        this.timeNextUpdateUtc = timeNextUpdateUtc;
+    public void setTime_next_update_utc(String time_next_update_utc) {
+        this.time_next_update_utc = time_next_update_utc;
     }
 
-    public String getBaseCode() {
-        return baseCode;
+    public String getBase_code() {
+        return base_code;
     }
 
-    public void setBaseCode(String baseCode) {
-        this.baseCode = baseCode;
+    public void setBase_code(String base_code) {
+        this.base_code = base_code;
     }
 
     public Map<String, Double> getRates() {
