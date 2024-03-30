@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void login(String email, String password) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://your-api-url.com/") // Replace this with your API base URL
+                .baseUrl("https://tourguidemegaphone-e5d7117dd068.herokuapp.com/") // Replace this with your API base URL
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
