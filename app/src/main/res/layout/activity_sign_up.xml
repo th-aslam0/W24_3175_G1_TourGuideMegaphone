@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTxtFirstName" />
 
     <EditText
-        android:id="@+id/editTxtEmail"
+        android:id="@+id/editTxtSignUpEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -66,10 +66,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTxtEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editTxtSignUpEmail" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btnTxtSignUp"

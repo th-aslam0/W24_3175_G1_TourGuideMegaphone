@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     LoginResponse loginResponse = response.body();
                     String token = loginResponse.getToken();
-
+                    Log.d("DEBUF", "onResponse: " + loginResponse);
 
                     // Handle successful login, e.g., save token to SharedPreferences
                 } else {
