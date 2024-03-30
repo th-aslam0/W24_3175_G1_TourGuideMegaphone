@@ -2,6 +2,7 @@ package com.example.tourguidemegaphone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -66,6 +67,9 @@ public class SignUpActivity extends AppCompatActivity {
                     SignUpActivity.SignupResponse signUpResponse = response.body();
                     String token = signUpResponse.getToken();
                     Log.d("DEBUF", "onResponse: " + signUpResponse);
+
+                    Intent intent = new Intent(SignUpActivity.this, TourGuideHomeActivity.class);
+                    startActivity(intent);
                     // Handle successful login, e.g., save token to SharedPreferences
                 } else {
                     // Handle unsuccessful login

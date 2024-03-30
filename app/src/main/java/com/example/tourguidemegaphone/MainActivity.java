@@ -89,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     String token = loginResponse.getToken();
                     Log.d("DEBUF", "onResponse: " + loginResponse);
 
+                    Intent intent = new Intent(MainActivity.this, TourGuideHomeActivity.class);
+                    startActivity(intent);
+
                     // Handle successful login, e.g., save token to SharedPreferences
                 } else {
                     // Handle unsuccessful login
