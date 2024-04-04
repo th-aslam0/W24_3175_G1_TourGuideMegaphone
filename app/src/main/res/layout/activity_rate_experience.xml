@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    tools:context=".RateExperience">
+
+    <TextView
+        android:id="@+id/rateExperienceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rate Your Experience"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        app:layout_constraintTop_toBottomOf="@+id/rateExperienceTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:rating="3.5"/>
+
+    <EditText
+        android:id="@+id/feedbackEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Optional Feedback Message"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintTop_toBottomOf="@+id/feedbackEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <TextView
+        android:id="@+id/shareOnSocialAppsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share on Social Apps"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/submitButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/twitterButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Twitter"
+        app:layout_constraintTop_toBottomOf="@+id/shareOnSocialAppsTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/facebookButton"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"/>
+
+    <Button
+        android:id="@+id/facebookButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Facebook"
+        app:layout_constraintTop_toBottomOf="@+id/shareOnSocialAppsTextView"
+        app:layout_constraintStart_toEndOf="@+id/twitterButton"
+        app:layout_constraintEnd_toStartOf="@+id/instagramButton"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"/>
+
+    <Button
+        android:id="@+id/instagramButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Instagram"
+        app:layout_constraintTop_toBottomOf="@+id/shareOnSocialAppsTextView"
+        app:layout_constraintStart_toEndOf="@+id/facebookButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
