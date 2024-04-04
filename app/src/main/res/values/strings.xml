@@ -24,9 +24,9 @@
         <item name="united_kingdom">United Kingdom</item>
         <item name="united_states">United States</item>
     </string-array>
-     <string-array name="cities">
+    <string-array name="cities">
         <item name="no_selection">Select City</item>
-     </string-array>
+    </string-array>
 
 
     <string-array name="australia_cities">
