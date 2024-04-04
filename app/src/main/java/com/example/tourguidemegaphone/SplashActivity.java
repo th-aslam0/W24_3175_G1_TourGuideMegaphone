@@ -15,7 +15,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
+        // Here we need to read from db the role of the user,
+        // if tourist show the Tourist main activity
+        // else tour guide
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {

@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         // setting a link to "sign up" part.
         spannableSignUp.setSpan(clickableSpan, 23, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        
         txtViewSignUp.setText(spannableSignUp);
         txtViewSignUp.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     LoginResponse loginResponse = response.body();
                     String token = loginResponse.getToken();
                     Log.d("DEBUF", "onResponse: " + loginResponse);
-
+                    // Here we need to add the session in database
                     Intent intent = new Intent(MainActivity.this, TourGuideHomeActivity.class);
                     startActivity(intent);
 
