@@ -20,6 +20,9 @@
             android:name=".TouristHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".PaymentProcessActivity"
+            android:exported="false" />
+        <activity
             android:name=".TourSessionDetailsActivity"
             android:exported="false" />
         <activity
