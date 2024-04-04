@@ -13,7 +13,10 @@ public final class RateReaderContract {
         public static final String COLUMN_NAME_CURRENCY_FROM = "currencyFrom";
         public static final String COLUMN_NAME_CURRENCY_TO = "currencyTo";
         public static final String COLUMN_NAME_RATE = "rate";
+    }
 
-
+    public static class RatesTime implements BaseColumns {
+        public static final String TABLE_NAME = "RATES_UPDATE_TIME";
+        public static final String COLUMN_NAME_NEXT_UPDATE = "nextUpdateUnix";
     }
 }

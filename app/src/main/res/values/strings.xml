@@ -9,4 +9,8 @@
     <string name="txtHintYourEmail">Your email address</string>
     <string name="btnTxtSignUp">Sign Up</string>
     <string name="btnConvert">Convert</string>
+    <string name="hintAutoTypeCurrencyFrom">Type in a 3 letter currency code...</string>
+    <string name="txtViewCurrencyFrom">Currency from:</string>
+    <string name="txtViewCurrencyTo">Currency To:</string>
+    <string name="hintTxtViewConvertedAmount">Converted amount</string>
 </resources>

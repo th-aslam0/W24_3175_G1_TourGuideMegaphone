@@ -11,14 +11,14 @@
         android:id="@+id/editTextAmountFrom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="10dp"
         android:hint="Enter amount"
         android:inputType="numberDecimal"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCurrencyFrom" />
 
     <Spinner
         android:id="@+id/spinnerCurrencyFrom"
@@ -27,43 +27,89 @@
         android:layout_below="@id/editTextAmountFrom"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAmountFrom" />
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTxtViewCurrencyFrom" />
 
-    <EditText
-        android:id="@+id/editTextAmountTo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerCurrencyFrom"
-        android:hint="Converted amount"
-        android:inputType="numberDecimal"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/txtViewCurrencyTo"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/txtViewCurrencyTo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCurrencyFrom"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAmountFrom" />
 
     <Spinner
         android:id="@+id/spinnerCurrencyTo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/editTextAmountTo"
+        android:layout_below="@id/txtViewCurrencyTo"
         android:dropDownWidth="wrap_content"
         android:spinnerMode="dropdown"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAmountTo" />
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTxtCurrencyTo" />
 
     <Button
         android:id="@+id/btnConvertCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinnerCurrencyTo"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:text="@string/btnConvert"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewConvertedAmount" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTxtViewCurrencyFrom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hintAutoTypeCurrencyFrom"
+        android:maxLines="1"
+        android:minLines="1"
+        android:textSize="22sp"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewCurrencyFrom"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTxtCurrencyTo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hintAutoTypeCurrencyFrom"
+        android:lines="1"
+        android:maxLines="1"
+        android:minLines="1"
+        android:textSize="22sp"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewCurrencyTo" />
+
+    <TextView
+        android:id="@+id/txtViewCurrencyFrom"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="64dp"
+        android:text="@string/txtViewCurrencyFrom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtViewConvertedAmount"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="32dp"
+        android:hint="@string/hintTxtViewConvertedAmount"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCurrencyTo" />
