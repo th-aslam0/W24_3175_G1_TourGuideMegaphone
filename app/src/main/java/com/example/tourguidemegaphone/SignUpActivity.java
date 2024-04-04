@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.annotations.SerializedName;
@@ -35,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
         EditText editTxtEmail = findViewById(R.id.editTxtSignUpEmail);
         EditText editTxtPassword = findViewById(R.id.editTxtSignUpPassword);
         Button signupBtn = findViewById(R.id.signupBtn);
-
+        RadioGroup roleRG = findViewById(R.id.su_rg_roleRG);
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,13 +45,21 @@ public class SignUpActivity extends AppCompatActivity {
                 String lastName = editTxtLastName.getText().toString();
                 String email = editTxtEmail.getText().toString();
                 String password = editTxtPassword.getText().toString();
+                int selectedRadioButtonId = roleRG.getCheckedRadioButtonId();
+                // Find the selected radio button
+                RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+
+                // Get the text of the selected radio button
+                String selectedOption = selectedRadioButton.getText().toString();
+
                 Log.d("DEBUF", firstName + " - " + lastName + " - " + email + "  -  " + password);
-                signUp(firstName, lastName, email, password);
+                signUp(firstName, lastName, email, password, selectedOption);
             }
         });
     }
 
-    private void signUp(String firstName, String lastName, String email, String password) {
+    private void signUp(String firstName, String lastName, String email,
+                        String password, String role) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://tourguidemegaphone-e5d7117dd068.herokuapp.com/") // Replace this with your API base URL
                 .addConverterFactory(GsonConverterFactory.create())
@@ -57,7 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         SignUpActivity.ApiService apiService = retrofit.create(SignUpActivity.ApiService.class);
 
-        SignUpActivity.SignupRequest signUpRequest = new SignUpActivity.SignupRequest(firstName, lastName, email, password);
+        SignUpActivity.SignupRequest signUpRequest = new SignUpActivity.SignupRequest(firstName, lastName, email, password, role);
 
         Call<SignUpActivity.SignupResponse> call = apiService.signup(signUpRequest);
         call.enqueue(new Callback<SignUpActivity.SignupResponse>() {
@@ -96,11 +106,16 @@ public class SignUpActivity extends AppCompatActivity {
         @SerializedName("password")
         private String password;
 
-        public SignupRequest(String firstName,String lastName, String email, String password) {
+        @SerializedName("role")
+        private String role;
+
+        public SignupRequest(String firstName,String lastName, String email,
+                             String password, String role) {
             this.fname= firstName;
             this.lname = lastName;
             this.email = email;
             this.password = password;
+            this.role = role;
         }
     }
 

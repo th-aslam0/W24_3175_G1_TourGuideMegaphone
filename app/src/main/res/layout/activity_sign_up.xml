@@ -77,4 +77,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTxtSignUpPassword" />
+
+    <RadioGroup
+        android:id="@+id/su_rg_roleRG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/signupBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtSignUpPassword">
+
+        <RadioButton
+            android:id="@+id/su_rb_tourguide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tour Guide" />
+
+        <RadioButton
+            android:id="@+id/su_rb_tourist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tourist" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
