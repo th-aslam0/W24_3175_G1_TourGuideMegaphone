@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView txtViewSignIn = findViewById(R.id.txtSignUpInstead);
+        TextView txtViewSignUp = findViewById(R.id.txtSignUpInstead);
         EditText editTxtEmail = findViewById(R.id.editTextEmailAddress);
         EditText editTxtPassword = findViewById(R.id.editTextPassword);
         SpannableString spannableSignUp = new SpannableString(txtViewSignUp.getText());
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         // setting a link to "sign up" part.
         spannableSignUp.setSpan(clickableSpan, 23, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        txtViewSignIn.setText(spannableSignUp);
-        txtViewSignIn.setMovementMethod(LinkMovementMethod.getInstance());
+        txtViewSignUp.setText(spannableSignUp);
+        txtViewSignUp.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void login(String email, String password) {
