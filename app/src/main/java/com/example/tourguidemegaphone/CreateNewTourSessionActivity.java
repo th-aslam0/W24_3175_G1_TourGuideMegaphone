@@ -46,6 +46,7 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
         // Sample data for the spinner
 //        String[] cities = getResources().getStringArray(R.array.your_string_array);
 
+        countryCityMap.put("Select Country", R.array.cities);
         countryCityMap.put("Australia", R.array.australia_cities);
         countryCityMap.put("Canada", R.array.canada_cities);
         countryCityMap.put("South Africa", R.array.south_africa_cities);
@@ -64,17 +65,18 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(countrySelected.equals("Select Country") || citySelected.equals("Select City")){
-                    return;
+                if(countrySelected.equals("") || citySelected.equals("")){
+                    Toast.makeText(getApplicationContext(), "Select Country & City" , Toast.LENGTH_SHORT).show();
+                } else{
+                    String title = etTitle.getText().toString();
+                    String description = etDescription.getText().toString();
+                    String startTime = etStartTime.getText().toString();
+                    String duration = etDuration.getText().toString();
+                    String price = etPrice.getText().toString();
+                    publishTourSession
+                            (countrySelected, citySelected, title, description, startTime,
+                                    duration, Double.parseDouble(price));
                 }
-                String title = etTitle.getText().toString();
-                String description = etDescription.getText().toString();
-                String startTime = etStartTime.getText().toString();
-                String duration = etDuration.getText().toString();
-                String price = etPrice.getText().toString();
-                publishTourSession
-                        (countrySelected, citySelected, title, description, startTime,
-                        duration, Double.parseDouble(price));
             }
         });
     
