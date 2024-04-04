@@ -35,7 +35,9 @@ public class PaymentProcessActivity extends AppCompatActivity {
         buttonProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Perform any validation checks here if needed
+                String cardName = editTextCardName.getText().toString();
+                String cardNumber = editTextCardNumber.getText().toString();
+                String cardCVV = editTextCVV.getText().toString();
 
                 // Proceed to TourSessionDetailsActivity
                 Intent intent = new Intent(PaymentProcessActivity.this, TourSessionDetailsActivity.class);
