@@ -31,13 +31,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //
 
         TextView txtViewSignIn = findViewById(R.id.txtSignUpInstead);
         EditText editTxtEmail = findViewById(R.id.editTextEmailAddress);
         EditText editTxtPassword = findViewById(R.id.editTextPassword);
-        Button signIn = findViewById(R.id.btnSignIn);
-        signIn.setOnClickListener(new View.OnClickListener() {
+        SpannableString spannableSignUp = new SpannableString(txtViewSignUp.getText());
+        Button btnSignIn = findViewById(R.id.btnSignIn);
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = editTxtEmail.getText().toString();
@@ -46,9 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 login(email, password);
             }
         });
-        SpannableString spannableSignUp = new SpannableString(txtViewSignIn.getText());
-
-
+        
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
