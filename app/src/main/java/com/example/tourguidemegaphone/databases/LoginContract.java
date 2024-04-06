@@ -12,5 +12,8 @@ public final class LoginContract {
         public static final String TABLE_NAME = "login";
         public static final String COLUMN_NAME_EMAIL = "email";
         public static final String COLUMN_NAME_TOKEN = "token";
+        public static final String COLUMN_NAME_FNAME = "fname";
+        public static final String COLUMN_NAME_LNAME = "lname";
+        public static final String COLUMN_NAME_ROLE = "role";
     }
 }

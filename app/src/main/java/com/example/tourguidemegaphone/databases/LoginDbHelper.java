@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class LoginDbHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "Login.db";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
     private Context context;
 
     public LoginDbHelper(Context context) {
@@ -21,6 +21,9 @@ public class LoginDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + LoginContract.LoginEntry.TABLE_NAME + " (" +
                         LoginContract.LoginEntry._ID + " INTEGER PRIMARY KEY," +
+                        LoginContract.LoginEntry.COLUMN_NAME_FNAME + " TEXT," +
+                        LoginContract.LoginEntry.COLUMN_NAME_LNAME + " TEXT," +
+                        LoginContract.LoginEntry.COLUMN_NAME_ROLE + " TEXT," +
                         LoginContract.LoginEntry.COLUMN_NAME_EMAIL + " TEXT," +
                         LoginContract.LoginEntry.COLUMN_NAME_TOKEN + " TEXT)";
 
