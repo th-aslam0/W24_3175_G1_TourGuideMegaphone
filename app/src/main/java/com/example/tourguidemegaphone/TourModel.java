@@ -1,16 +1,34 @@
 package com.example.tourguidemegaphone;
 
-public class TourModel {
+import android.os.Parcelable;
 
-        String tourTitle;
-        String tourCountry;
-        String tourCity;
-        String tourDescription;
-        String tourStartTime;
-        String tourDuration;
-        double tourPrice;
-        String tourGuideEmail;
+import java.io.Serializable;
 
+public class TourModel implements Serializable {
+
+
+
+    String _id;
+    String tourTitle;
+    String tourCountry;
+    String tourCity;
+    String tourDescription;
+    String tourStartTime;
+    String tourDuration;
+    double tourPrice;
+    String tourGuideEmail;
+
+    public TourModel( String _id, String tourTitle, String tourCountry, String tourCity, String tourDescription, String tourStartTime, String tourDuration, double tourPrice, String tourGuideEmail) {
+        this._id = _id;
+        this.tourTitle = tourTitle;
+        this.tourCountry = tourCountry;
+        this.tourCity = tourCity;
+        this.tourDescription = tourDescription;
+        this.tourStartTime = tourStartTime;
+        this.tourDuration = tourDuration;
+        this.tourPrice = tourPrice;
+        this.tourGuideEmail = tourGuideEmail;
+    }
     public TourModel(String tourTitle, String tourCountry, String tourCity, String tourDescription, String tourStartTime, String tourDuration, double tourPrice, String tourGuideEmail) {
         this.tourTitle = tourTitle;
         this.tourCountry = tourCountry;
@@ -95,6 +113,13 @@ public class TourModel {
 
         public void setTourPrice(double tourPrice) {
             this.tourPrice = tourPrice;
+        }
+        public String get_id() {
+            return _id;
+        }
+
+        public void set_id(String _id) {
+            this._id = _id;
         }
     }
 

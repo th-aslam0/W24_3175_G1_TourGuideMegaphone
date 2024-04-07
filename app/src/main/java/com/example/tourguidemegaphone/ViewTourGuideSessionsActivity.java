@@ -1,16 +1,12 @@
 package com.example.tourguidemegaphone;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +23,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public class ViewTourGuideSessionsActivity extends AppCompatActivity {
     List<TourModel> sessions = new ArrayList<>();
@@ -68,12 +66,14 @@ public class ViewTourGuideSessionsActivity extends AppCompatActivity {
                         @Override
                         public void editItemClick(TourModel item, int position) {
                             Toast.makeText(ViewTourGuideSessionsActivity.this, "Edit Clicked", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(ViewTourGuideSessionsActivity.this, TourGuideHomeActivity.class);
+                            Intent intent = new Intent(ViewTourGuideSessionsActivity.this, EditTourAdActivity.class);
+                            intent.putExtra("tourData", item); // Put your data here
                             startActivity(intent);
                         }
 
                         @Override
                         public void deleteItemClick(TourModel item, int position) {
+                            deleteSession(item.get_id(), position);
                             Toast.makeText(ViewTourGuideSessionsActivity.this, "Delete Clicked", Toast.LENGTH_LONG).show();
                         }
 
@@ -98,10 +98,39 @@ public class ViewTourGuideSessionsActivity extends AppCompatActivity {
                 Toast.makeText(ViewTourGuideSessionsActivity.this, "Failed to get Sessions: " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
+        });
+    }
+
+    private void deleteSession(String id, int pos) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tourguidemegaphone-e5d7117dd068.herokuapp.com/") // Replace this with your API base URL
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiService apiService = retrofit.create(ApiService.class);
 
 
 
+        Call<DeleteResponse> call = apiService.deleteSession(id);
+        call.enqueue(new Callback<DeleteResponse>() {
 
+            @Override
+            public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(ViewTourGuideSessionsActivity.this, "Tour Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ViewTourGuideSessionsActivity.this, ViewTourGuideSessionsActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Handle unsuccessful login
+                    Toast.makeText(ViewTourGuideSessionsActivity.this, "Delete failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteResponse> call, Throwable t) {
+                Toast.makeText(ViewTourGuideSessionsActivity.this, "Delete failed" + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
         });
     }
 
@@ -122,8 +151,19 @@ public class ViewTourGuideSessionsActivity extends AppCompatActivity {
             return sessions;
         }
     }
+    public class DeleteResponse {
+        @SerializedName("message")
+        String message;
+
+        public String getMessage() {
+            return message;
+        }
+    }
     public interface ApiService {
         @POST("tours_by_email")
         Call<List<TourModel>> getSessions(@Body SessionsRequest sessionRequest);
+
+        @DELETE("tours/{id}")
+        Call<DeleteResponse> deleteSession(@Path("id") String id);
     }
 }

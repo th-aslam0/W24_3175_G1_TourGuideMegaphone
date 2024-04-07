@@ -23,6 +23,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public class EditTourAdActivity extends AppCompatActivity {
 
@@ -33,19 +35,25 @@ public class EditTourAdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_edit_tour_ad);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        Intent intent = getIntent();
+        TourModel tourData = (TourModel) intent.getSerializableExtra("tourData");
 
         // Initialize EditText fields
         editTextTitle = findViewById(R.id.editTextTitle);
+        editTextTitle.setText(tourData.getTourTitle());
+
         editTextDescription = findViewById(R.id.editTextDescription);
+        editTextDescription.setText(tourData.getTourDescription());
+
         editTextStartDateTime = findViewById(R.id.editTextStartDateTime);
+        editTextStartDateTime.setText(tourData.getTourStartTime());
+
         editTextPrice = findViewById(R.id.editTextPrice);
+        editTextPrice.setText(Double.toString(tourData.getTourPrice()));
+
         editTextDuration = findViewById(R.id.editTextDuration);
-        editTextBanner = findViewById(R.id.editTextBanner);
+        editTextDuration.setText(tourData.getTourDuration());
+
 
         Button updateButton = findViewById(R.id.buttonUpdate);
 
@@ -59,9 +67,8 @@ public class EditTourAdActivity extends AppCompatActivity {
                 String startDateTime = editTextStartDateTime.getText().toString();
                 String price = editTextPrice.getText().toString();
                 String duration = editTextDuration.getText().toString();
-                String banner = editTextBanner.getText().toString();
 
-                update(title, description, startDateTime, price, duration,banner);
+                update(tourData._id, title, description, startDateTime, price, duration);
 
                 // Proceed to TourSessionDetailsActivity
 //                Intent intent = new Intent(PaymentProcessActivity.this, TourSessionDetailsActivity.class);
@@ -70,38 +77,38 @@ public class EditTourAdActivity extends AppCompatActivity {
         });
     }
 
-    private void update(String title, String description, String startDateTime,
-                        String price, String duration,String banner) {
+    private void update(String _id,String title, String description, String startDateTime,
+                        String price, String duration) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://tourguidemegaphone-e5d7117dd068.herokuapp.com/") // Replace this with your API base URL
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        EditTourAdActivity.ApiService apiService = retrofit.create(EditTourAdActivity.ApiService.class);
+        ApiService apiService = retrofit.create(ApiService.class);
 
-        EditTourAdActivity.UpdateRequest updateRequest = new EditTourAdActivity.UpdateRequest(title, description, startDateTime, price, duration,banner);
+        UpdateRequest updateRequest = new UpdateRequest(title, description, startDateTime, price, duration);
 
-        Call<EditTourAdActivity.UpdateResponse> call = apiService.signup(updateRequest);
+        Call<UpdateResponse> call = apiService.update(_id, updateRequest);
 
         call.enqueue(new Callback<EditTourAdActivity.UpdateResponse>() {
             @Override
-            public void onResponse(Call<EditTourAdActivity.UpdateResponse> call, Response<EditTourAdActivity.UpdateResponse> response) {
+            public void onResponse(Call<UpdateResponse> call, Response<UpdateResponse> response) {
                 if (response.isSuccessful()) {
-                    EditTourAdActivity.UpdateResponse signUpResponse = response.body();
-                    String token = signUpResponse.getToken();
-                    Log.d("DEBUF", "onResponse: " + signUpResponse);
+                    UpdateResponse signUpResponse = response.body();
+                    TourModel updatedTour = signUpResponse.updatedTour();
+                    Log.d("DEBUF", "onResponse: " + updatedTour);
+                    Toast.makeText(EditTourAdActivity.this, "Tour Updated", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(EditTourAdActivity.this, TourGuideHomeActivity.class);
+                    Intent intent = new Intent(EditTourAdActivity.this, ViewTourGuideSessionsActivity.class);
                     startActivity(intent);
-                    // Handle successful login, e.g., save token to SharedPreferences
                 } else {
                     // Handle unsuccessful login
-                    Toast.makeText(EditTourAdActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditTourAdActivity.this, "Failed to update", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<EditTourAdActivity.UpdateResponse> call, Throwable t) {
+            public void onFailure(Call<UpdateResponse> call, Throwable t) {
                 Log.d("DEBUF", "onError: " + t.getMessage());
                 // Handle failure
                 Toast.makeText(EditTourAdActivity.this, "Login failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -110,42 +117,38 @@ public class EditTourAdActivity extends AppCompatActivity {
     }
 
     public class UpdateRequest {
-        @SerializedName("title")
-        private String title;
-        @SerializedName("description")
-        private String description;
-        @SerializedName("startDateTime")
-        private String startDateTime;
-        @SerializedName("price")
-        private String price;
+        @SerializedName("tourTitle")
+        private String tourTitle;
+        @SerializedName("tourDescription")
+        private String tourDescription;
+        @SerializedName("tourStartTime")
+        private String tourStartTime;
+        @SerializedName("tourPrice")
+        private String tourPrice;
 
-        @SerializedName("duration")
-        private String duration;
-
-        @SerializedName("banner")
-        private String banner;
+        @SerializedName("tourDuration")
+        private String tourDuration;
 
         public UpdateRequest(String title, String description, String startDateTime,
-                             String price, String duration,String banner) {
-            this.title= title;
-            this.description = description;
-            this.startDateTime = startDateTime;
-            this.price = price;
-            this.duration = duration;
-            this.banner = banner;
+                             String price, String duration) {
+            this.tourTitle= title;
+            this.tourDescription = description;
+            this.tourStartTime = startDateTime;
+            this.tourPrice = price;
+            this.tourDuration = duration;
         }
     }
 
     public class UpdateResponse {
-        @SerializedName("token")
-        private String message;
+        @SerializedName("updatedTour")
+        private TourModel updatedTour;
 
-        public String getToken() {
-            return message;
+        public TourModel updatedTour() {
+            return updatedTour;
         }
     }
     public interface ApiService {
-        @POST("update")
-        Call<EditTourAdActivity.UpdateResponse> signup(@Body EditTourAdActivity.UpdateRequest updateRequest);
+        @PUT("tours/{id}")
+        Call<UpdateResponse> update(@Path("id") String id, @Body UpdateRequest updateRequest);
     }
 }
