@@ -32,6 +32,9 @@
             android:name=".TourSessionDetailsActivity"
             android:exported="false" />
         <activity
+            android:name=".ViewTourGuideSessionsActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateNewTourSessionActivity"
             android:exported="false" />
         <activity

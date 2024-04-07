@@ -37,7 +37,8 @@ public class TourGuideHomeActivity extends AppCompatActivity {
         btnViewSessions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(TourGuideHomeActivity.this, ViewTourGuideSessionsActivity.class);
+                startActivity(intent);
             }
         });
     }
