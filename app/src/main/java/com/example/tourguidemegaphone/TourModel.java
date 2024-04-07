@@ -9,8 +9,28 @@ public class TourModel {
         String tourStartTime;
         String tourDuration;
         double tourPrice;
+        String tourGuideEmail;
 
-        public TourModel(String tourTitle, String tourCountry, String tourCity, String tourDescription, String tourStartTime, String tourDuration, double tourPrice) {
+    public TourModel(String tourTitle, String tourCountry, String tourCity, String tourDescription, String tourStartTime, String tourDuration, double tourPrice, String tourGuideEmail) {
+        this.tourTitle = tourTitle;
+        this.tourCountry = tourCountry;
+        this.tourCity = tourCity;
+        this.tourDescription = tourDescription;
+        this.tourStartTime = tourStartTime;
+        this.tourDuration = tourDuration;
+        this.tourPrice = tourPrice;
+        this.tourGuideEmail = tourGuideEmail;
+    }
+
+    public String getTourGuideEmail() {
+        return tourGuideEmail;
+    }
+
+    public void setTourGuideEmail(String tourGuideEmail) {
+        this.tourGuideEmail = tourGuideEmail;
+    }
+
+    public TourModel(String tourTitle, String tourCountry, String tourCity, String tourDescription, String tourStartTime, String tourDuration, double tourPrice) {
             this.tourTitle = tourTitle;
             this.tourCountry = tourCountry;
             this.tourCity = tourCity;
@@ -18,6 +38,7 @@ public class TourModel {
             this.tourStartTime = tourStartTime;
             this.tourDuration = tourDuration;
             this.tourPrice = tourPrice;
+
         }
 
         public String getTourTitle() {

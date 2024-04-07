@@ -17,7 +17,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.tourguidemegaphone.databases.LoginDao;
 import com.google.gson.annotations.SerializedName;
+import com.example.tourguidemegaphone.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +34,9 @@ import retrofit2.http.POST;
 
 public class CreateNewTourSessionActivity extends AppCompatActivity {
     Map<String, Integer> countryCityMap = new HashMap<>();
+    String countrySelected = "";
+    String citySelected = "";
+    private LoginDao loginDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +48,8 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // Sample data for the spinner
-//        String[] cities = getResources().getStringArray(R.array.your_string_array);
 
+        loginDao = LoginDao.getInstance(CreateNewTourSessionActivity.this);
         countryCityMap.put("Select Country", R.array.cities);
         countryCityMap.put("Australia", R.array.australia_cities);
         countryCityMap.put("Canada", R.array.canada_cities);
@@ -59,8 +63,7 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
         EditText etDuration = findViewById(R.id.cnts_et_duration);
         EditText etPrice = findViewById(R.id.cnts_et_price);
         Button publishBtn = findViewById(R.id.cnts_btn_publish);
-        String countrySelected = "";
-        String citySelected = "";
+
 
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +71,7 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
                 if(countrySelected.equals("") || citySelected.equals("")){
                     Toast.makeText(getApplicationContext(), "Select Country & City" , Toast.LENGTH_SHORT).show();
                 } else{
+                    User user = loginDao.getLastLoginInfo();
                     String title = etTitle.getText().toString();
                     String description = etDescription.getText().toString();
                     String startTime = etStartTime.getText().toString();
@@ -75,7 +79,7 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
                     String price = etPrice.getText().toString();
                     publishTourSession
                             (countrySelected, citySelected, title, description, startTime,
-                                    duration, Double.parseDouble(price));
+                                    duration, Double.parseDouble(price), user.getEmail());
                 }
             }
         });
@@ -88,6 +92,7 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // Get the selected item from the spinner
                 String selectedItem = (String) parentView.getItemAtPosition(position);
+                countrySelected = selectedItem;
                 int resourceId = countryCityMap.get(selectedItem);
 
                 // Now you can use the resource ID to access the string array
@@ -118,6 +123,7 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
                 // Get the selected item from the spinner
                 String selectedItem = (String) parentView.getItemAtPosition(position);
                 // Display a toast message with the selected item
+                citySelected = selectedItem;
                 Toast.makeText(getApplicationContext(), "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
             }
 
@@ -129,7 +135,9 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
 
     }
 
-    private void publishTourSession(String country, String city, String tourTitle, String tourDescription, String tourStartDateTime, String tourDuration, Double price) {
+    private void publishTourSession(String country, String city, String tourTitle,
+                                    String tourDescription, String tourStartDateTime,
+                                    String tourDuration, Double price, String tourGuideEmail) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://tourguidemegaphone-e5d7117dd068.herokuapp.com/") // Replace this with your API base URL
                 .addConverterFactory(GsonConverterFactory.create())
@@ -138,7 +146,8 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
         CreateNewTourSessionActivity.ApiService apiService = retrofit.create(CreateNewTourSessionActivity.ApiService.class);
 
         CreateNewTourSessionActivity.PublishRequest publishRequest = new CreateNewTourSessionActivity.
-                PublishRequest(country, city, tourTitle, tourDescription, tourStartDateTime, tourDuration, price);
+                PublishRequest(country, city, tourTitle, tourDescription,
+                tourStartDateTime, tourDuration, price, tourGuideEmail);
 
         Call<CreateNewTourSessionActivity.PublishResponse> call = apiService.publish(publishRequest);
         call.enqueue(new Callback<CreateNewTourSessionActivity.PublishResponse>() {
@@ -171,29 +180,33 @@ public class CreateNewTourSessionActivity extends AppCompatActivity {
 
 
     public class PublishRequest {
-        @SerializedName("country")
-        private String country;
-        @SerializedName("city")
-        private String city;
+        @SerializedName("tourCountry")
+        private String tourCountry;
+        @SerializedName("tourCity")
+        private String tourCity;
         @SerializedName("tourTitle")
         private String tourTitle;
         @SerializedName("tourDescription")
         private String tourDescription;
-        @SerializedName("tourStartDateTime")
-        private String tourStartDateTime;
+        @SerializedName("tourStartTime")
+        private String tourStartTime;
         @SerializedName("tourDuration")
         private String tourDuration;
-        @SerializedName("price")
-        private Double price;
-
-        public PublishRequest(String country, String city, String tourTitle, String tourDescription, String tourStartDateTime, String tourDuration, Double price) {
-            this.country = country;
-            this.city = city;
+        @SerializedName("tourPrice")
+        private Double tourPrice;
+        @SerializedName("tourGuideEmail")
+        private String tourGuideEmail;
+        public PublishRequest(String country, String city, String tourTitle, String tourDescription,
+                              String tourStartDateTime, String tourDuration, Double price,
+                              String tourGuideEmail) {
+            this.tourCountry = country;
+            this.tourCity = city;
             this.tourTitle = tourTitle;
             this.tourDescription = tourDescription;
-            this.tourStartDateTime = tourStartDateTime;
+            this.tourStartTime = tourStartDateTime;
             this.tourDuration = tourDuration;
-            this.price = price;
+            this.tourPrice = price;
+            this.tourGuideEmail = tourGuideEmail;
         }
     }
 
