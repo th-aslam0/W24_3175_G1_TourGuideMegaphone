@@ -9,9 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.tourguidemegaphone.model.CurrencyRates;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -70,7 +68,7 @@ public class CurrencyRatesDAO {
         dbHelper.close();
     }
 
-    public long getLastUpdate(String currency) {
+    public long getNextUpdateInUnixTime(String currency) {
         // Define a projection that specifies which columns from the database you will use after this query
         String[] projection = {"time_next_update_unix"};
 

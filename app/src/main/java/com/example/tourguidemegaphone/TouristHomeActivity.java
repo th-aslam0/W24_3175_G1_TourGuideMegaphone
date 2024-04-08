@@ -5,12 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.tourguidemegaphone.databases.LoginDao;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ import retrofit2.http.Path;
 public class TouristHomeActivity extends AppCompatActivity {
 
     List<TourModel> sessions = new ArrayList<>();
+    LoginDao loginDao = LoginDao.getInstance(TouristHomeActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,27 @@ public class TouristHomeActivity extends AppCompatActivity {
 
         Button btnCurrencyConverter = findViewById(R.id.btn_currency_converter);
         Button btnTakeAQuiz = findViewById(R.id.btn_take_quiz);
+
+        ImageButton imgBtnGoBack = findViewById(R.id.imgBtnGoBack);
+        ImageButton imgBtnLogOut = findViewById(R.id.imgBtnLogOut);
+
+        imgBtnGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        imgBtnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginDao.logOut();
+                Intent intent = new Intent(TouristHomeActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         btnCurrencyConverter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
