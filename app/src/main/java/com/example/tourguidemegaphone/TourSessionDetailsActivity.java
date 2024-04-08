@@ -14,43 +14,41 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class TourSessionDetailsActivity extends AppCompatActivity {
+    private TextView textViewTitle, textViewDescription,
+            textViewStartDateTime, textViewPrice,
+            textViewDuration, textViewBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_tour_session_details);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        Intent intent = getIntent();
+        TourModel tourData = (TourModel) intent.getSerializableExtra("tourData");
 
-//        // Finding views by their IDs
-//        ImageView imageView = findViewById(R.id.imageView);
-//        TextView headingTextView = findViewById(R.id.headingTextView);
-//        TextView priceTextView = findViewById(R.id.priceTextView);
-//        TextView descriptionTextView = findViewById(R.id.descriptionTextView);
-//        TextView smallHeadingTextView = findViewById(R.id.smallHeadingTextView);
-//        TextView smallTextView = findViewById(R.id.smallTextView);
+        textViewTitle = findViewById(R.id.editTextTitle);
+        textViewTitle.setText(tourData.getTourTitle());
+
+        textViewDescription = findViewById(R.id.editTextDescription);
+        textViewDescription.setText(tourData.getTourDescription());
+
+        textViewStartDateTime = findViewById(R.id.editTextStartDateTime);
+        textViewStartDateTime.setText(tourData.getTourStartTime());
+
+        textViewPrice = findViewById(R.id.editTextPrice);
+        textViewPrice.setText(Double.toString(tourData.getTourPrice()));
+
+        textViewDuration = findViewById(R.id.editTextDuration);
+        textViewDuration.setText(tourData.getTourDuration());
+
+
+        Button updateButton = findViewById(R.id.buttonUpdate);
         Button buyButton = findViewById(R.id.buy_button);
-//        EditText pin1EditText = findViewById(R.id.pin1EditText);
-//        EditText pin2EditText = findViewById(R.id.pin2EditText);
-//        EditText pin3EditText = findViewById(R.id.pin3EditText);
-//        EditText pin4EditText = findViewById(R.id.pin4EditText);
-
-        // Setting up example values
-//        imageView.setImageResource(R.drawable.your_image);
-//        headingTextView.setText("Product Name");
-//        priceTextView.setText("$9.99");
-//        descriptionTextView.setText("Description of the product goes here.");
-//        smallHeadingTextView.setText("Additional Information");
-//        smallTextView.setText("Some additional information about the product.");
         buyButton.setOnClickListener(view -> {
             // Perform buy action here
 
             // Proceed to TourSessionDetailsActivity
-            Intent intent = new Intent(TourSessionDetailsActivity.this, PaymentProcessActivity.class);
+            Intent i = new Intent(TourSessionDetailsActivity.this, PaymentProcessActivity.class);
             startActivity(intent);
         });
     }
