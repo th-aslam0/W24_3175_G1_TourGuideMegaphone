@@ -47,18 +47,20 @@
             android:layout_height="wrap_content"
             android:hint="CVV"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textViewDate"
+            app:layout_constraintEnd_toStartOf="@id/editTextDate"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Date Field -->
-        <TextView
-            android:id="@+id/textViewDate"
+        <EditText
+            android:id="@+id/editTextDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Date"
+            android:hint="MM/YYYY"
+            android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/editTextCVV"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Proceed button -->
