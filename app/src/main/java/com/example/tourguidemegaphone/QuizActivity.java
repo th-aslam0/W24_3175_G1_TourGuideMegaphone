@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,12 +18,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tourguidemegaphone.databases.LoginDao;
 import com.example.tourguidemegaphone.databases.QuizDao;
 import com.example.tourguidemegaphone.model.Quiz;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,6 +43,7 @@ public class QuizActivity extends AppCompatActivity {
     private List<Quiz> quizList;
     private List<String> cityList = new ArrayList<>();
     private QuizDao quizDao;
+    private LoginDao loginDao = LoginDao.getInstance(QuizActivity.this);
     private int currentQuestionIndex = 0;
     private int score = 0;
     Button btn_next;
@@ -51,6 +55,10 @@ public class QuizActivity extends AppCompatActivity {
     RadioButton rb_option3;
     RadioButton rb_option4;
     String selectedCity;
+
+    ImageButton imbBtnGoBack;
+    ImageButton imageBtnLogOut;
+    TextView txtViewTitle;
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 123;
     private FusedLocationProviderClient fusedLocationClient;
@@ -108,13 +116,15 @@ public class QuizActivity extends AppCompatActivity {
                             Log.d("QUIZ", "onSuccess, Location: "+ location);
                             selectedCity = getCityFromLocation(location);
                             Log.d("QUIZ", "onSuccess, city: " + selectedCity);
-                            Toast.makeText(QuizActivity.this, "You are in " + selectedCity, Toast.LENGTH_SHORT).show();
+                            txtViewTitle.setText("You are in " + selectedCity + ".");
+                            //Toast.makeText(QuizActivity.this, "You are in " + selectedCity, Toast.LENGTH_SHORT).show();
 
                             // Load the quiz for the city
                             hideSpinner();
                             loadQuizForCity(selectedCity);
                         } else {
                             // Location is null, handle accordingly
+                            txtViewTitle.setText("We don't know where you are... ");
                             setSpinner();
                             spinnerCities.setVisibility(View.VISIBLE);
 
@@ -155,7 +165,7 @@ public class QuizActivity extends AppCompatActivity {
             // Display the first question
             displayQuestion(0);
         } else {
-            Toast.makeText(this, "No quiz for city: " + city, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No quiz for your city (" + city + ")", Toast.LENGTH_SHORT).show();
             // No quiz available for the city, handle accordingly
             setSpinner();
             selectedCity = "Berlin";
@@ -192,6 +202,27 @@ public class QuizActivity extends AppCompatActivity {
         rb_option2 = findViewById(R.id.rb_option2);
         rb_option3 = findViewById(R.id.rb_option3);
         rb_option4 = findViewById(R.id.rb_option4);
+
+        imbBtnGoBack = findViewById(R.id.imgBtnGoBack);
+        imageBtnLogOut = findViewById(R.id.imgBtnLogOut);
+        txtViewTitle = findViewById(R.id.txtViewTitleCurrencyConverter);
+
+        imbBtnGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        imageBtnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginDao.logOut();
+                Intent intent = new Intent(QuizActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         spinnerCities = findViewById(R.id.spinner_cities);
 

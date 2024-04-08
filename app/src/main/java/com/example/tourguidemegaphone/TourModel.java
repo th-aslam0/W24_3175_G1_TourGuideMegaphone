@@ -6,8 +6,6 @@ import java.io.Serializable;
 
 public class TourModel implements Serializable {
 
-
-
     String _id;
     String tourTitle;
     String tourCountry;

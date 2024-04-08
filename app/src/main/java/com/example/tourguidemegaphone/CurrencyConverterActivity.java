@@ -2,9 +2,9 @@ package com.example.tourguidemegaphone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,18 +12,24 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tourguidemegaphone.databases.CurrencyRatesDAO;
+import com.example.tourguidemegaphone.databases.LoginDao;
 import com.example.tourguidemegaphone.model.CurrencyRates;
 import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 
@@ -36,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CurrencyConverterActivity extends AppCompatActivity {
     private static final String DEFAULT_CURRENCY = "CAD";
+    private LoginDao loginDao = LoginDao.getInstance(CurrencyConverterActivity.this);
     private Boolean isUserAction = false;
     Spinner spinnerCurrencyFrom;
     Spinner spinnerCurrencyTo;
@@ -43,6 +50,9 @@ public class CurrencyConverterActivity extends AppCompatActivity {
     TextView txtViewAmountTo;
     TextView txtConvertedAmount;
     Button btnConvertCurrency;
+    ImageButton imbBtnGoBack;
+    ImageButton imageBtnLogOut;
+    TextView txtViewTitle;
     AutoCompleteTextView autoCompleteTxtViewCurrencyFrom;
     AutoCompleteTextView autoCompleteTxtViewCurrencyTo;
 
@@ -65,10 +75,30 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         autoCompleteTxtViewCurrencyFrom = findViewById(R.id.autoCompleteTxtViewCurrencyFrom);
         autoCompleteTxtViewCurrencyTo = findViewById(R.id.autoCompleteTxtCurrencyTo);
         txtConvertedAmount = findViewById(R.id.txtViewConvertedAmount);
+        imbBtnGoBack = findViewById(R.id.imgBtnGoBack);
+        imageBtnLogOut = findViewById(R.id.imgBtnLogOut);
+        txtViewTitle = findViewById(R.id.txtViewTitleCurrencyConverter);
 
         //hide autocomplete until it is fixed (does not select proper value to spinner)
         autoCompleteTxtViewCurrencyFrom.setVisibility(View.INVISIBLE);
         autoCompleteTxtViewCurrencyTo.setVisibility(View.INVISIBLE);
+
+        imbBtnGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        imageBtnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginDao.logOut();
+                Intent intent = new Intent(CurrencyConverterActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         ratesDAO = new CurrencyRatesDAO(CurrencyConverterActivity.this);
 
@@ -102,6 +132,7 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         spinnerCurrencyFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("CURRENCYACT", "onItemSelected, isUserAction: " + isUserAction);
                 if (isUserAction) {
                     Log.d("CURRENCYACT", "currency-from-changed at pos: " + position);
                     String selectedItem = parent.getItemAtPosition(position).toString();
@@ -162,13 +193,31 @@ public class CurrencyConverterActivity extends AppCompatActivity {
 //        });
 
     }
+    public static String convertUnixTimeToDateTime(long unixTime) {
+        // Convert Unix time to milliseconds
+        long unixTimeMillis = unixTime * 1000;
+
+        // Create a Date object from Unix time in milliseconds
+        Date date = new Date(unixTimeMillis);
+
+        // Define the desired date-time format
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+        // Set the time zone to UTC to ensure correct conversion
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        // Format the Date object to human-readable date-time string
+        String formattedDateTime = formatter.format(date);
+
+        return formattedDateTime;
+    }
     private void setCurrencyRatesFromDbOrAPI(String currency, boolean areSpinnersSet){
 
 
         // Get last time we updated the db
         ratesDAO.open();
         //nextUpdateUnix = ratesDAO.queryLastUpdate();
-        nextUpdateUnix = ratesDAO.getLastUpdate(currency);
+        nextUpdateUnix = ratesDAO.getNextUpdateInUnixTime(currency);
         ratesDAO.close();
         Log.d("CURRENCYACT","setCurrencyRatesFromDbOrAPI()| currency: " + currency + " currentTime: " + currentTimeUnix + " - nextTime: " + nextUpdateUnix);
 
@@ -215,6 +264,13 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                         // Pass the JSON string to the storeJson() method
                         Log.d("CURRENCYACT", "Saving data from API to db now...");
                         ratesDAO.storeCurrencyRates(currencyRates);
+
+                        //Set title with info
+                        Long nextUpdate = ratesDAO.getNextUpdateInUnixTime(currency);
+                        String strNextUpdate = convertUnixTimeToDateTime(nextUpdate);
+                        String currentTitle = txtViewTitle.getText().toString();
+                        String newTitle = currentTitle + ". Data valid until: " + strNextUpdate;
+                        txtViewTitle.setText(newTitle);
 
                         ratesDAO.close();
 
@@ -267,15 +323,15 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         spinnerCurrencyFrom.setAdapter(adapterCurrencyFrom);
         spinnerCurrencyTo.setAdapter(adapterCurrencyTo);
 
-        spinnerCurrencyFrom.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isUserAction = true;
-                Log.d("CURRENCYACT", "isUserAction: True");
-                return false;
-            }
-
-        });
+//        spinnerCurrencyFrom.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                isUserAction = true;
+//                Log.d("CURRENCYACT", "isUserAction: True");
+//                return false;
+//            }
+//
+//        });
 
         int spinnerPositionCurrencyFrom = adapterCurrencyFrom.getPosition(selectedCurrency);
         int spinnerPositionCurrencyTo = adapterCurrencyTo.getPosition(selectedCurrency);

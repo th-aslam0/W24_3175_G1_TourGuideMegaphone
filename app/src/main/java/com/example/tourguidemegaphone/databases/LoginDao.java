@@ -134,6 +134,11 @@ public class LoginDao {
         this.saveLoginData(email, token, fName, lName, role);
     }
 
+    public void logOut(){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        dbHelper.onUpgrade(db, 1, 1);
+    }
+
     public void login(User user, final LoginResponseCallback callback) {
         //private void login(String email, String password)
 

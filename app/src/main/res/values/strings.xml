@@ -14,6 +14,10 @@
     <string name="txtViewCurrencyTo">Currency To:</string>
     <string name="hintTxtViewConvertedAmount">Converted amount</string>
 
+    <string name="open_drawer">Open Navigation Drawer</string>
+    <string name="close_drawer">Close Navigation Drawer</string>
+    <string name="txtTitleCurrConv">Currency Converter</string>
+
     <string-array name="countries">
         <item name="no_selection">Select Country</item>
 
