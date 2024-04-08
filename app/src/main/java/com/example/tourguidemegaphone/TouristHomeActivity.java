@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.annotations.SerializedName;
@@ -34,6 +36,25 @@ public class TouristHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tourist_home);
         getSessions();
+
+        Button btnCurrencyConverter = findViewById(R.id.btn_currency_converter);
+        Button btnTakeAQuiz = findViewById(R.id.btn_take_quiz);
+        btnCurrencyConverter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TouristHomeActivity.this, CurrencyConverterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnTakeAQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TouristHomeActivity.this, QuizActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void getSessions() {
