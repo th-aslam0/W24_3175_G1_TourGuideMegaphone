@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.tourguidemegaphone.model.User;
 import com.google.gson.annotations.SerializedName;
 
 import retrofit2.Call;
@@ -69,18 +70,25 @@ public class SignUpActivity extends AppCompatActivity {
 
         SignUpActivity.SignupRequest signUpRequest = new SignUpActivity.SignupRequest(firstName, lastName, email, password, role);
 
-        Call<SignUpActivity.SignupResponse> call = apiService.signup(signUpRequest);
-        call.enqueue(new Callback<SignUpActivity.SignupResponse>() {
+        Call<User> call = apiService.signup(signUpRequest);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<SignUpActivity.SignupResponse> call, Response<SignUpActivity.SignupResponse> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    SignUpActivity.SignupResponse signUpResponse = response.body();
-                    String token = signUpResponse.getToken();
+                    User signUpResponse = response.body();
+                    String role = signUpResponse.getRole();
                     Log.d("DEBUF", "onResponse: " + signUpResponse);
+                    Intent intent;
+                    switch (role) {
+                        case "Tour Guide":
+                            intent = new Intent(SignUpActivity.this, TourGuideHomeActivity.class);
+                            startActivity(intent);
+                            break;
+                        case "Tourist":
+                            intent = new Intent(SignUpActivity.this, TouristHomeActivity.class);
+                            startActivity(intent);
+                    }
 
-                    Intent intent = new Intent(SignUpActivity.this, TourGuideHomeActivity.class);
-                    startActivity(intent);
-                    // Handle successful login, e.g., save token to SharedPreferences
                 } else {
                     // Handle unsuccessful login
                     Toast.makeText(SignUpActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
@@ -88,7 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<SignUpActivity.SignupResponse> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.d("DEBUF", "onError: " + t.getMessage());
                 // Handle failure
                 Toast.makeText(SignUpActivity.this, "Login failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -119,16 +127,8 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public class SignupResponse {
-        @SerializedName("token")
-        private String message;
-
-        public String getToken() {
-            return message;
-        }
-    }
     public interface ApiService {
         @POST("signup")
-        Call<SignUpActivity.SignupResponse> signup(@Body SignUpActivity.SignupRequest signupRequest);
+        Call<User> signup(@Body SignUpActivity.SignupRequest signupRequest);
     }
 }
